@@ -6,7 +6,7 @@
 # Import necessary modules.
 import argparse         # Used to parse command line arguements.
 import csv              # Used to parse csv files.
-from IPy import IP
+import ipaddress
 from scan import *
 
 """
@@ -16,19 +16,12 @@ def check_unique(ip, unique_ips):
     if ip in unique_ips:
         next
     else:
-        if check_valid(ip):
+        try:
+            ipaddress.ip_network(unicode(ip))
             unique_ips.append(ip)
-        else:
-            print "Skipping %s" % ip
+        except Exception,e:
+            print "\t%s" %e
 
-def check_valid(ip):
-    parts = ip.split(".")
-    if len(parts) != 4:
-        return False
-    for item in parts:
-        if not 0 <= int(item) <= 255:
-            return False
-    return True
 
 """
 Main Program
@@ -57,6 +50,7 @@ threads = []
 # Iterate through each unique IP address.
 for ip in unique_ips:
     try:
+        ip = str(ip)
         t = scan(count, "Thread-" + str(count), ip)
         threads.append(t)
         t.start()
