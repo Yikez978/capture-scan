@@ -21,10 +21,7 @@ class scan (threading.Thread):
     # Run the port scanner on the IP address.
 	def run(self):
 		nm = nmap.PortScanner()
-		nm.scan(hosts=self.ip, arguments='-sP')
-		if nm[self.ip].state() == 'up':
-			nm.scan(hosts=self.ip, arguments='-T5')
-
+		nm.scan(hosts=self.ip, arguments='-T5')
 		self.info = nm
 
 	# Return the info for the IP address.
