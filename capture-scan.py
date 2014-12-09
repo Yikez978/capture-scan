@@ -73,6 +73,7 @@ with open(args.input_file, 'rb') as csvfile:
 for ip in unique_ips:
     try:
         ip = str(ip)
+	print "Scanning ip %s" % ip
         t = scan(count, "Thread-" + str(count), ip)
         threads.append(t)
         t.start()
